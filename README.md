@@ -5,7 +5,7 @@
 
 [Link to github](https://github.com/Dyakonov/MSUML)
 
-## deep_learning
+## [deep_learning](https://github.com/juliazadorozhnaya/Machine_Learning_and_Deep_Learning_cmc/tree/main/DL)
 
 Курс "Глубокое машинное обучение" 2022 год,
 4 курс ВМК МГУ
