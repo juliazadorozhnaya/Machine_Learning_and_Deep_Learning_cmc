@@ -1,4 +1,4 @@
-## machine_learning
+## [machine_learning](https://github.com/juliazadorozhnaya/Machine_Learning_and_Deep_Learning_cmc/tree/main/ML)
 
 Курс "Введение по машинное обучение" 2021 год,
 3 курс ВМК МГУ
