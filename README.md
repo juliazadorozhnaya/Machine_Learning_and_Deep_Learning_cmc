@@ -1,14 +1,14 @@
 ## [machine_learning](https://github.com/juliazadorozhnaya/Machine_Learning_and_Deep_Learning_cmc/tree/main/ML)
 
-Курс "Введение по машинное обучение" 2021 год,
-3 курс ВМК МГУ
+Course "Introduction to Machine Learning" 2021,
+3 course CMC MSU
 
 [Link to github](https://github.com/Dyakonov/MSUML)
 
 ## [deep_learning](https://github.com/juliazadorozhnaya/Machine_Learning_and_Deep_Learning_cmc/tree/main/DL)
 
-Курс "Глубокое машинное обучение" 2022 год,
-4 курс ВМК МГУ
+Course "Deep Machine Learning" 2022,
+4 course CMC MSU
 
 [Link to github](https://github.com/Dyakonov/MSUDLL)
 
