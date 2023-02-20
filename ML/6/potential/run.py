@@ -6,24 +6,23 @@ from glob import glob
 import shutil
 import json
 import os
-from sklearn.metrics import mean_absolute_error
-import traceback
+
 
 
 def check_test(data_dir):
     gt_dir = os.path.join(data_dir, 'gt')
     output_dir = os.path.join(data_dir, 'output')
 
-    predictions = np.array(json.load(open(os.path.join(output_dir, 'predictions.json'))))
-    target = np.array(json.load(open(os.path.join(gt_dir, 'target.json'))))
+    predictions = json.load(open(os.path.join(output_dir, 'predictions.json')))
+    target = json.load(open(os.path.join(gt_dir, 'target.json')))
 
-    if len(target) != len(predictions):
-        res = json.dumps({"status": "FAILED, inconsistent number of predictions", "mae": 20000.})
+    if target.keys() != predictions.keys():
+        res = json.dumps({"status": "FAILED, file names are different", "mae": 1})
         if os.environ.get('CHECKER'):
             print(res)
         return res
 
-    mae = mean_absolute_error(target, predictions)
+    mae = np.mean(np.abs([target[file] - predictions[file] for file in target]))
 
     res = json.dumps({"status": "OK", "mae": mae})
     if os.environ.get('CHECKER'):
@@ -35,10 +34,11 @@ def check_test(data_dir):
 def grade(data_path):
 
     gradation = {
-        5: [0, 2100],
-        3: [2100, 2200],
-        1: [2200, 2300],
-        0: [2300, 1e10]
+        5: [0, 0.007],
+        4: [0.007, 0.01],
+        3: [0.01, 0.02],
+        2: [0.02, 0.05],
+        0: [0.05, 1]
     }
     student_mark = 0
     maes = []
@@ -60,7 +60,7 @@ def grade(data_path):
                 if interval[0] < mae <= interval[1]:
                     current_mark = max(mark, current_mark)
 
-            student_mark += current_mark * (2 * i + 1) # i == 0 for public, 1 for private
+            student_mark += current_mark * (i + 1) # i == 0 for public, 1 for private
     mark_info = {'description': f'OK, mae = {maes}', 'mark': student_mark}
     if os.environ.get('CHECKER'):
         print(json.dumps(mark_info))
@@ -69,13 +69,13 @@ def grade(data_path):
 
 
 def run_single_test(data_dir, output_dir):
-    from awards_prediction import train_model_and_predict
+    from potential_prediction import train_model_and_predict
 
-    train_file = os.path.join(data_dir, 'train/train.jsonl')
-    test_file = os.path.join(data_dir, 'test/test.jsonl')
+    train_dir = os.path.join(data_dir, 'train/potentials')
+    test_dir = os.path.join(data_dir, 'test/potentials')
 
-    predictions = train_model_and_predict(train_file, test_file)
-    json.dump(list(predictions), open(os.path.join(output_dir, "predictions.json"), "w"))
+    predictions = train_model_and_predict(train_dir, test_dir)
+    json.dump(predictions, open(os.path.join(output_dir, "predictions.json"), "w"))
     
 
 
